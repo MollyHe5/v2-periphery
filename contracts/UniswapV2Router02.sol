@@ -425,7 +425,7 @@ contract UniswapV2Router02 is IUniswapV2Router02 {
     }
 
     function getAmountsOut(uint amountIn, address[] calldata path)
-        public
+        external
         view
         virtual
         override
@@ -435,7 +435,7 @@ contract UniswapV2Router02 is IUniswapV2Router02 {
     }
 
     function getAmountsIn(uint amountOut, address[] calldata path)
-        public
+        external
         view
         virtual
         override
