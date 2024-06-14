@@ -80,15 +80,17 @@ library UniswapV2LiquidityMathLibrary {
         bool feeOn,
         uint kLast
     ) internal pure returns (uint256 tokenAAmount, uint256 tokenBAmount) {
-        if (feeOn && kLast > 0) {
-            uint rootK = Babylonian.sqrt(reservesA.mul(reservesB));
-            uint rootKLast = Babylonian.sqrt(kLast);
-            if (rootK > rootKLast) {
-                uint numerator1 = totalSupply;
-                uint numerator2 = rootK.sub(rootKLast);
-                uint denominator = rootK.mul(5).add(rootKLast);
-                uint feeLiquidity = FullMath.mulDiv(numerator1, numerator2, denominator);
-                totalSupply = totalSupply.add(feeLiquidity);
+        if (feeOn) {
+            if (kLast > 0) {
+                uint rootK = Babylonian.sqrt(reservesA.mul(reservesB));
+                uint rootKLast = Babylonian.sqrt(kLast);
+                if (rootK > rootKLast) {
+                    uint numerator1 = totalSupply;
+                    uint numerator2 = rootK.sub(rootKLast);
+                    uint denominator = rootK.mul(5).add(rootKLast);
+                    uint feeLiquidity = FullMath.mulDiv(numerator1, numerator2, denominator);
+                    totalSupply = totalSupply.add(feeLiquidity);
+                }
             }
         }
         return (reservesA.mul(liquidityAmount) / totalSupply, reservesB.mul(liquidityAmount) / totalSupply);
